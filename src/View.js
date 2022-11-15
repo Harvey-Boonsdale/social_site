@@ -1,46 +1,57 @@
-import React, {useState} from 'react';
-import Table from 'react-bootstrap/Table';
-import './App.css';
+import React, { useState } from "react";
+import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
+import "./App.css";
 
-function View(){
-    const [todos, changeTodos] = useState( [{ id: 1, task: "make static data", complete: false },
-    { id: 2, task: "make dynamic data", complete: false }])
-
-
-  const buildRows = () =>  {
-    return todos.map((current) => (
-      <tr key={current.id}>
+function View(props) {
+  const buildRows = () => {
+    return props.update.map((current, index) => (
+      <tr key={index} className={current.id}>
+        <td>{current.userName}</td>
+        <td>{current.userText}</td>
         <td>
-          {current.id}
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={() => {
+              handleLike();
+            }}
+          >
+            Like
+          </Button>
         </td>
-        <td>
-          {current.task}
-        </td>
-        <td>
-          {current.complete ? "yes" : "no"}
-        </td>
+        <td>{current.likes}</td>
       </tr>
-    )
-    )
-  }
+    ));
+    //a function that runs when the post is clicked
+    function Like() {
+      console.log(current.likes);
+      const [likes, changeLikes] = useState(0);
 
+      const handleLike = (clickedLikes) => {
+        changeLikes(likes + 1);
+      };
+    }
+  };
 
-    return (
-      <>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Task</th>
-              <th>complete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {buildRows()}
-          </tbody>
-        </Table>
-      </>
-    );
+  //  figure out which object in state needs to be changed
 
+  //   change the likes on the post
+
+  return (
+    <>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>User Name</th>
+            <th>Status</th>
+            <th></th>
+            <th>Likes</th>
+          </tr>
+        </thead>
+        <tbody>{buildRows()}</tbody>
+      </Table>
+    </>
+  );
 }
 export default View;
